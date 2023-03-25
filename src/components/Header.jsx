@@ -1,11 +1,15 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import Logo from "../assets/cinema.png";
 import LanguageSwitcher from "./switchers/LanguageSwitcher";
+import useSWR from "swr";
 import ModeSwitcher from "./switchers/ModeSwitcher";
+import fetchSuggestions from "../api/fetchSuggestions";
 
 const Header = () => {
   const [query, setQuery] = useState("");
+  const fetcher = (query) => fetchSuggestions(query);
+  const { data: titles } = useSWR(query, fetcher);
 
   return (
     <header>
@@ -16,15 +20,7 @@ const Header = () => {
           </Link>
 
           <div className="flex items-center lg:order-2">
-            <form
-              className="flex items-center"
-              onSubmit={(e) => {
-                e.preventDefault(); // varsayılan submit işlemini engelle
-                if (query.trim() !== "") {
-                  window.location.href = `/search/${query}`; // arama sayfasına yönlendir
-                }
-              }}
-            >
+            <form className="flex items-center">
               <label htmlFor="simple-search" className="sr-only">
                 Search
               </label>
@@ -36,6 +32,27 @@ const Header = () => {
                   value={query}
                   onChange={(e) => setQuery(e.target.value)}
                 />
+                {/* SUGGESTIONS CODE START  */}
+                <div>
+                  {query && titles && (
+                    <div className="absolute overflow-y-hidden	 max-h-64 z-50 w-52 mt-1 bg-white rounded-lg shadow-lg">
+                      <ul className="divide-y divide-gray-200">
+                        {titles.map((title, id) => (
+                          <li key={id}>
+                            <Link
+                              to={`search/${query}`}
+                              onClick={() => setQuery("")}
+                              className="block px-3 py-2 text-sm leading-5 text-gray-900 cursor-pointer hover:bg-gray-100"
+                            >
+                              {title}
+                            </Link>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </div>
+                {/* SUGGESTIONS CODE END  */}
               </div>
 
               <Link

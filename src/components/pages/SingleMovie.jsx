@@ -1,18 +1,29 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import useSWR from "swr";
 import fetchDetail from "../../api/fetchMoreDetail";
+import getMovieTrailer from "../../api/getMovieTrailer";
 import { LanguageContext } from "../../context/LanguageProvider";
 import { circleColor, dateFix, runTimeFix } from "../../service/uiFunctions";
-
+import VideoPlayer from "../video/VideoPlayer";
 const SingleMovie = () => {
-  const { language } = useContext(LanguageContext);
-  const IMG_PATH = "https://image.tmdb.org/t/p/original";
   const { id } = useParams();
+  const IMG_PATH = "https://image.tmdb.org/t/p/original";
+
+  const { language } = useContext(LanguageContext);
   const { data, error } = useSWR(`/movie/${id}language=${language}`, () =>
     fetchDetail(id, language)
   );
-  console.log(data);
+
+  const [trailerKey, setTrailerKey] = useState("");
+  useEffect(() => {
+    async function fetchTrailer() {
+      const trailer = await getMovieTrailer(id, language);
+      setTrailerKey(trailer);
+    }
+    fetchTrailer();
+  }, [id, language]);
+
   if (error) return <div>{error.message}</div>;
   if (!data) return <div>Loading...</div>;
 
@@ -36,12 +47,14 @@ const SingleMovie = () => {
 
   return (
     <div style={backgroundStyle}>
-      <div className=" p-4 backdrop-blur-sm text-white bg-white/20 dark:bg-black/80">
+      
+
+      <div className=" p-4 backdrop-blur-md dark:backdrop-blur-sm   dark:text-white  bg-white/20 dark:bg-black/80">
         <p className="text-xl  text-center md:text-left md:text-4xl">{title}</p>
-        <p className="text-sm mt-1 italic  text-gray-100  text-center md:text-left  md:text-lg">
+        <p className="text-sm mt-1 italic  dark:text-gray-100  text-center md:text-left  md:text-lg">
           {tagline}
         </p>
-        <div className="flex flex-wrap text-white dark:text-gray-400   justify-center md:justify-start gap-1  md:gap-2 uppercase text-sm md:text-lg my-3 ml-4 ">
+        <div className="flex flex-wrap text-gray-200 dark:text-gray-400   justify-center md:justify-start gap-1  md:gap-2 uppercase text-sm md:text-lg my-3 ml-4 ">
           <span>{dateFix(release_date)}</span>
           <span>{original_language}</span>
           <span>{runTimeFix(runtime)}</span>
@@ -57,7 +70,7 @@ const SingleMovie = () => {
               {genres?.map((genre) => {
                 return (
                   <p
-                    className="border  border-white border-opacity-40 py-1 px-2 rounded-xl uppercase"
+                    className="border border-black dark:border-white border-opacity-40 py-1 px-2 rounded-xl uppercase"
                     key={genre.id}
                   >
                     {genre.name}
@@ -121,6 +134,7 @@ const SingleMovie = () => {
           </div>
         </div>
       </div>
+      <VideoPlayer trailerKey={trailerKey} />
     </div>
   );
 };

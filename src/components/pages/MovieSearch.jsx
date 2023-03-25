@@ -18,7 +18,7 @@ const MovieSearch = () => {
 
   const isMobile = window.innerWidth <= 369;
   const maxLength = isMobile ? 80 : 300;
-  
+
   return (
     <div className="flex flex-col mx-2 md:mx-8 lg:mx-16 my-4">
       <h1 className="text-center  mb-4">
@@ -41,7 +41,12 @@ const MovieSearch = () => {
                 />
 
                 <div className="flex flex-col">
-                  <h2 className="text-sm md:text-2xl md:mt-2">{movie.title}</h2>
+                  <Link
+                    to={`/more/${movie.id}`}
+                    className="text-sm md:text-2xl md:mt-2 hover:text-blue-800 "
+                  >
+                    {movie.title}
+                  </Link>
                   <p className="my-2 md:mb-3 text-xs md:text-sm  font-normal text-gray-500 dark:text-gray-400">
                     {`${movie.overview.substring(0, maxLength)}${
                       movie.overview.length > maxLength ? "..." : ""
@@ -50,12 +55,6 @@ const MovieSearch = () => {
                   <p className="mb-1 md:mb-3 text-xs md:text-md  font-normal text-gray-500 dark:text-gray-400">
                     Release Date: {dateFix(movie.release_date)}
                   </p>
-                  <Link
-                    className="w-12 md:w-16 px-2  text-xs md:text-sm font-medium text-center text-white bg-blue-700 rounded-lg hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-                    to={`/more/${movie.id}`}
-                  >
-                    {language == "en-US" ? "Open" : "Aç"}
-                  </Link>
                 </div>
               </div>
             )

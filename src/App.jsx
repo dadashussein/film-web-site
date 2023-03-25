@@ -9,7 +9,7 @@ import Footer from "./components/Footer";
 
 function App() {
   return (
-    <div className=" bg-zinc-200 text-black dark:text-white dark:bg-gray-900">
+    <div className=" bg-transparent text-black dark:text-white dark:bg-gray-900">
       <LanguageProvider>
         <SWRConfig
           value={{

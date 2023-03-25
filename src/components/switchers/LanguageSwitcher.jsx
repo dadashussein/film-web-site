@@ -12,12 +12,14 @@ const LanguageSwitcher = () => {
     <div className="flex  relative">
       <label
         htmlFor="lang_switch"
-        className=" w-1.5 text-sm font-medium text-gray-900 dark:text-white"
+        className=" w-3 text-sm font-medium text-gray-900 dark:text-white"
       >
         <svg
           className="absolute top-0 right-0 h-full w-10 p-2 pointer-events-none"
           fill="currentColor"
           viewBox="0 0 20 20"
+          width="32"
+          height="32"
           xmlns="http://www.w3.org/2000/svg"
           aria-hidden="true"
         >
@@ -30,7 +32,6 @@ const LanguageSwitcher = () => {
         </svg>
       </label>
       <select
-        value={language}
         onChange={handleLanguageChange}
         id="lang_switch"
         className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-9 p-2 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500 "
