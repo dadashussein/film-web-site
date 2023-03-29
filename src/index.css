@@ -10,10 +10,21 @@
   padding: 0;
 }
 
-html,body {
+html,
+body {
   font-family: 'Rubik', sans-serif;
   height: 0;
   background: none;
 }
 
 
+::-webkit-scrollbar {
+  width: 10px;
+}
+::-webkit-scrollbar-track {
+  background: #1F2937;
+}
+::-webkit-scrollbar-thumb {
+  background: #686666;
+  border-radius: 6px;
+}

@@ -47,8 +47,6 @@ const SingleMovie = () => {
 
   return (
     <div style={backgroundStyle}>
-      
-
       <div className=" p-4 backdrop-blur-md dark:backdrop-blur-sm   dark:text-white  bg-white/20 dark:bg-black/80">
         <p className="text-xl  text-center md:text-left md:text-4xl">{title}</p>
         <p className="text-sm mt-1 italic  dark:text-gray-100  text-center md:text-left  md:text-lg">
@@ -59,11 +57,11 @@ const SingleMovie = () => {
           <span>{original_language}</span>
           <span>{runTimeFix(runtime)}</span>
         </div>
-        <div className="flex flex-col   md:flex-row gap-2  p-1 rounded">
+        <div className="flex flex-col  items-center md:items-start    md:flex-row gap-2  p-1 rounded">
           <img
             src={`https://image.tmdb.org/t/p/w500${poster_path}`}
             alt="cinema"
-            className="w-64  rounded shadow-lg"
+            className="w-64 rounded shadow-lg"
           />
           <div className="ml-3">
             <div className="flex gap-1 flex-wrap justify-center items-start md:justify-start mt-4 mb-2">
@@ -82,7 +80,7 @@ const SingleMovie = () => {
               <span className="text-center md:text-start">{overview}</span>
 
               <div className="flex gap-1 items-center">
-                <div className="mb-3 text-xs md:text-sm lg:text-lg font-normal flex items-center gap-2  ">
+                <div className="mb-3 text-xs   md:text-sm lg:text-lg font-normal flex items-center gap-2  ">
                   IMDB :
                   <div className="w-8 my-2 ">
                     <svg

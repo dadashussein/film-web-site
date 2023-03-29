@@ -6,7 +6,7 @@ const getMovieTrailer = async (movieId, language) => {
     throw new Error("Failed to fetch video trailer");
   }
   const data = await response.json();
-  return data.results[0];
+  return data.results[1];
 };
 
 export default getMovieTrailer;

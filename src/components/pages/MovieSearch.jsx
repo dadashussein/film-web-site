@@ -4,6 +4,7 @@ import useSWR from "swr";
 import fetchSearchMovies from "../../api/fetchSearch";
 import { LanguageContext } from "../../context/LanguageProvider";
 import { dateFix } from "../../service/uiFunctions";
+import { motion } from "framer-motion";
 
 const MovieSearch = () => {
   const { language } = useContext(LanguageContext);
@@ -19,6 +20,26 @@ const MovieSearch = () => {
   const isMobile = window.innerWidth <= 369;
   const maxLength = isMobile ? 80 : 300;
 
+  const container = {
+    hidden: { opacity: 1, scale: 0 },
+    visible: {
+      opacity: 1,
+      scale: 1,
+      transition: {
+        delayChildren: 0.3,
+        staggerChildren: 0.2,
+      },
+    },
+  };
+
+  const item = {
+    hidden: { y: 20, opacity: 0 },
+    visible: {
+      y: 0,
+      opacity: 1,
+    },
+  };
+
   return (
     <div className="flex flex-col mx-2 md:mx-8 lg:mx-16 my-4">
       <h1 className="text-center  mb-4">
@@ -26,11 +47,17 @@ const MovieSearch = () => {
           ? `Search Results for "${query}"`
           : `"${query}" için arama sonuçları`}
       </h1>
-      <div className="grid grid-cols-1 gap-2">
+      <motion.div
+        variants={container}
+        initial="hidden"
+        animate="visible"
+        className="grid grid-cols-1 gap-2"
+      >
         {data.results.map(
           (movie) =>
             movie.poster_path && (
-              <div
+              <motion.div
+                variants={item}
                 className=" border p-2 flex w-full gap-4 shadow border-gray-300  bg-white dark:bg-gray-800 dark:border-gray-700"
                 key={movie.id}
               >
@@ -56,10 +83,10 @@ const MovieSearch = () => {
                     Release Date: {dateFix(movie.release_date)}
                   </p>
                 </div>
-              </div>
+              </motion.div>
             )
         )}
-      </div>
+      </motion.div>
     </div>
   );
 };
